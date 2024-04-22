@@ -36,6 +36,24 @@ namespace LdapForNet.Utils
             throw new PlatformNotSupportedException();
         }
 
+        public unsafe int StringPtrLen(IntPtr pointer)
+        {
+            var length = 0;
+
+            if (pointer == IntPtr.Zero)
+            {
+                return 0;
+            }
+
+            byte* stringPtr = (byte*)pointer;
+            while (stringPtr[length] != '\0')
+            {
+                length++;
+            }
+
+            return length;
+        }
+
         public string GetString(byte[] bytes) => Encoding.GetString(bytes);
 
         public byte[] GetBytes(string str) => Encoding.GetBytes(str);

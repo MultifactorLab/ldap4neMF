@@ -199,10 +199,11 @@ namespace LdapForNet.Native
         {
             return await Task.Factory.StartNew(() =>
             {
+                var passwordPtr = Encoder.Instance.StringToPtr(password);
                 var berval = new Native.berval
                 {
-                    bv_len = password.Length,
-                    bv_val = Encoder.Instance.StringToPtr(password)
+                    bv_len = Encoder.Instance.StringPtrLen(passwordPtr),
+                    bv_val = passwordPtr
                 };
                 var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(berval));
                 Marshal.StructureToPtr(berval, ptr, false);
